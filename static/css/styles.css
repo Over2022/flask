@@ -1,6 +1,32 @@
 body{
-    backdround: linear-gradient(blue, pink);
-    height: 400px;
-    width: 400px;
+    background-color: #BFDAF0;
+
+}
+
+.box_head{
+    background: radial-gradient(#A7CAFF, pink);
+    height: 70px;
+    width: 100%;
+    box-shadow: 0-0 10px;
+}
+
+.box{
+    color: black;
+    font-size: 20px;
+    position:relative;
+    top:25px;
+    left:30%;
+
+}
+.name{
+     position:relative;
+     top:25px;
+}
+
+.box:hover{
+    font-size: 25px;
+
+}
+
 
 }
