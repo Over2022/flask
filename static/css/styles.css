@@ -1,12 +1,14 @@
 body{
-    background-color: #BFDAF0;
+    background-color: #E7E7E7;
 
 }
 
 .box_head{
     background: radial-gradient(#A7CAFF, pink);
+    position:relative;
+    left:10px;
     height: 70px;
-    width: 100%;
+    width: 98%;
     box-shadow: 0-0 10px;
 }
 
@@ -16,11 +18,14 @@ body{
     position:relative;
     top:25px;
     left:30%;
+    margin-right:30px;
 
 }
 .name{
      position:relative;
      top:25px;
+     left:15px;
+
 }
 
 .box:hover{
@@ -28,5 +33,11 @@ body{
 
 }
 
+
+.comment{
+    background-color: #B3BBCD;
+    border-radius: 2px;
+    position:relative;
+    left: 80%;
 
 }

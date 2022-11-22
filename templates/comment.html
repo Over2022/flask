@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}
+Страница о нас
+{% endblock %}
+
+
+{% block body  %}
+<div class="container">
+    <form method="post">
+    <h3><hr>Оставьте комментарий</hr></h3>
+    <input type="text" name="name" id="name" placeholder="Ваше имя" class="form-control"><br>
+    <textarea name="text" id="text" placeholder="Введите сообщение" class="form-control"></textarea><br>
+    <center><input type="reset" class="btn btn-danger" value="Удалить">
+    <input type="submit" class="btn btn-success" value="Отправить"></center>
+        </form>
+</div>
+{% endblock%}

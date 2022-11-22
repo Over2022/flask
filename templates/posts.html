@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}
+Все статьи
+{% endblock %}
+
+
+{% block body  %}
+<div class="container">
+    <h3><hr>Все статьи</hr></h3>
+
+    {% for q in articles%}
+        <div class="alert alert-secondary">
+    <h4>{{ q.title }}</h4><br>
+     <h6>{{ q.intro }} </h6><br>
+    {{ q.text }}<br>
+    {{ q.date }}<br>
+            </div>
+    <span class="comment"><a href="/comment">Оставить комментарий</a></span>
+    {% endfor %}
+
+    </div>
+    {% endblock%}

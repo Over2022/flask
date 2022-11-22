@@ -1,32 +1,11 @@
-from flask import Flask
+from flask import Flask, request, redirect
 from flask import render_template
-from flask import url_for
-from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from models import db, Article, Comment
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:///blog.db'
-db = SQLAlchemy(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 
-
-class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100), nullable=False)
-    intro = db.Column(db.String(300), nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DateTime, defult=datetime.utcnow)
-
-    def __repr__(self):
-        return '<Article %r>' % self.id
-
-
-class Comment(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.Strting(50), nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    date = db.Column(db.DataTime, defult=datetime.utcnow)
-
-
+db.init_app(app)
 
 
 @app.route('/')
@@ -35,14 +14,57 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/posts')
+def posts():
+    articles = Article.query.order_by(Article.date).all()
+    return render_template('posts.html', articles=articles)
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
 
 
-@app.route('/user/<string:name>/<int:id>')
-def user(name, id):
-    return 'User page:' + name + '-' + str(id)
+@app.route('/comment', methods=['POST', 'GET'])
+def comment():
+    if request.method == 'POST':
+        name = request.form['name']
+        text = request.form['text']
+
+        comment = Comment(name=name, text=text)
+        try:
+            db.session.add(comment)
+            db.session.commit()
+            return redirect('/posts')
+        except:
+            return 'При добавлении комментария возникла ошибка'
+    else:
+        return render_template('comment.html')
+
+
+@app.route('/create-article', methods=['POST', 'GET'])
+def create_article():
+    if request.method == 'POST':
+        title = request.form['title']
+        intro = request.form['intro']
+        text = request.form['text']
+
+        article = Article(title=title, intro=intro, text=text)
+        try:
+            db.session.add(article)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'При добавлении статьи произошла ошибка'
+
+    else:
+        return render_template('create-article.html')
+
+
+@app.route('/create')
+def create():
+    db.create_all()
+    return 'All tables created'
 
 
 if __name__ == '__main__':
