@@ -14,9 +14,16 @@ def index():
     return render_template('index.html')
 
 
+@app.route('/posts/<int:id>')
+def article(id):
+    article = Article.query.get(id)
+    return render_template('article.html', article=article)
+
+
 @app.route('/posts')
 def posts():
     articles = Article.query.order_by(Article.date).all()
+    # comments = Comment.query.all()
     return render_template('posts.html', articles=articles)
 
 
@@ -25,13 +32,13 @@ def about():
     return render_template('about.html')
 
 
-@app.route('/comment', methods=['POST', 'GET'])
-def comment():
+@app.route('/comment/<int:post_id>', methods=['GET', 'POST'])
+def comment(post_id):
     if request.method == 'POST':
         name = request.form['name']
         text = request.form['text']
 
-        comment = Comment(name=name, text=text)
+        comment = Comment(name=name, text=text, post_id=post_id)
         try:
             db.session.add(comment)
             db.session.commit()
@@ -53,7 +60,7 @@ def create_article():
         try:
             db.session.add(article)
             db.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return 'При добавлении статьи произошла ошибка'
 

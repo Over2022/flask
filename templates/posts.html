@@ -3,20 +3,26 @@
 Все статьи
 {% endblock %}
 
-
 {% block body  %}
 <div class="container">
     <h3><hr>Все статьи</hr></h3>
-
-    {% for q in articles%}
+    {% for q in articles %}
         <div class="alert alert-secondary">
-    <h4>{{ q.title }}</h4><br>
-     <h6>{{ q.intro }} </h6><br>
-    {{ q.text }}<br>
-    {{ q.date }}<br>
-            </div>
-    <span class="comment"><a href="/comment">Оставить комментарий</a></span>
-    {% endfor %}
+        <h4>{{ q.title }}</h4><br>
+        <h6>{{ q.intro }} </h6><br>
+        {{ q.text }}<br>
+        <b>Дата:{{ q.date.date() }}</b><br>
+            <form action="/posts/{{q.id}}" target="_blank">
+                <button>Детальнее</button>
+            </form>
+        <hr>
+        <p><i>Комментарии</i></p>
+        {% for c in q.comment %}
+           <h4> {{ c.name }}: {{ c.text }}</h4><br><br>
+        {% endfor %}
+        </div>
 
-    </div>
-    {% endblock%}
+    <span class="comment"><a href="/comment/{{q.id}}">Оставить комментарий</a></span>
+    {% endfor %}
+</div>
+{% endblock%}
